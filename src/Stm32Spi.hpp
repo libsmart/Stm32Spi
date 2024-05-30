@@ -128,7 +128,7 @@ namespace Stm32Spi {
          *
          * @return The status of the transmission.
          */
-        Stm32Common::HalStatus transmit(const uint8_t *pData, const uint16_t size) {
+        Stm32Common::HalStatus transmit(const uint8_t *pData, const uint16_t size) const {
             return transmit(pData, size, LIBSMART_STM32SPI_DEFAULT_TIMEOUT);
         }
 
@@ -142,7 +142,7 @@ namespace Stm32Spi {
          *
          * @return The status of the transmission.
          */
-        Stm32Common::HalStatus transmit(const uint8_t data) {
+        Stm32Common::HalStatus transmit(const uint8_t data) const {
             return transmit(&data, 1, LIBSMART_STM32SPI_DEFAULT_TIMEOUT);
         }
 
@@ -156,9 +156,9 @@ namespace Stm32Spi {
          *
          * @return The status of the transmission.
          */
-        Stm32Common::HalStatus transmit(const uint32_t data) {
-            return transmit(reinterpret_cast<const uint8_t *>(&data), 4, LIBSMART_STM32SPI_DEFAULT_TIMEOUT);
-        }
+        // Stm32Common::HalStatus transmit(const uint32_t data) const {
+        //     return transmit(reinterpret_cast<const uint8_t *>(&data), 4, LIBSMART_STM32SPI_DEFAULT_TIMEOUT);
+        // }
 
 
         /**
@@ -171,7 +171,7 @@ namespace Stm32Spi {
          * @param data The 32-bit data to be transmitted.
          * @return The status of the transmission operation.
          */
-        Stm32Common::HalStatus transmit_be(const uint32_t data) {
+        Stm32Common::HalStatus transmit_be(const uint32_t data) const {
             uint8_t d[4];
             d[0] = (data & 0xff000000) >> 24u;
             d[1] = (data & 0x00ff0000) >> 16u;
@@ -182,6 +182,23 @@ namespace Stm32Spi {
 
 
         /**
+         * @brief Transmit a 16-bit data to the SPI peripheral using big-endian format.
+         *
+         * This method converts the given 16-bit data to a byte array in big-endian format,
+         * and then transmits it to the SPI peripheral using the `transmit` method with a
+         * default timeout value.
+         *
+         * @param data The 16-bit data to be transmitted.
+         * @return The status of the transmission operation.
+         */
+        Stm32Common::HalStatus transmit_be(const uint16_t data) const {
+            uint8_t d[2];
+            d[0] = (data & 0x0000ff00) >> 8u;
+            d[1] = (data & 0x000000ff);
+            return transmit(d, 2, LIBSMART_STM32SPI_DEFAULT_TIMEOUT);
+        }
+
+        /**
          * @brief Transmit data using the SPI peripheral.
          *
          * This method transmits the provided data using the SPI peripheral.
@@ -190,7 +207,7 @@ namespace Stm32Spi {
          * @param size The size of the data in bytes.
          * @return The status of the transmission.
          */
-        Stm32Common::HalStatus transmit(const char *data, const uint16_t size) {
+        Stm32Common::HalStatus transmit(const char *data, const uint16_t size) const {
             return transmit(reinterpret_cast<const uint8_t *>(data), size, LIBSMART_STM32SPI_DEFAULT_TIMEOUT);
         }
 
@@ -206,7 +223,7 @@ namespace Stm32Spi {
          * @param data C string containing the data to transmit.
          * @return The status of the transmission.
          */
-        Stm32Common::HalStatus transmit(const char *data) {
+        Stm32Common::HalStatus transmit(const char *data) const {
             return transmit(reinterpret_cast<const uint8_t *>(data), strlen(data), LIBSMART_STM32SPI_DEFAULT_TIMEOUT);
         }
 
@@ -222,7 +239,7 @@ namespace Stm32Spi {
          *
          * @return The status of the receive operation.
          */
-        Stm32Common::HalStatus receive(uint8_t *pData, const uint16_t size, const uint32_t Timeout) {
+        Stm32Common::HalStatus receive(uint8_t *pData, const uint16_t size, const uint32_t Timeout) const {
             log(Stm32ItmLogger::LoggerInterface::Severity::INFORMATIONAL)
                     ->println("Stm32Spi::Spi::receive()");
 
@@ -244,14 +261,14 @@ namespace Stm32Spi {
          * @param size The number of bytes to receive.
          * @return The status of the receive operation.
          */
-        Stm32Common::HalStatus receive(uint8_t *pData, const uint16_t size) {
+        Stm32Common::HalStatus receive(uint8_t *pData, const uint16_t size) const {
             return receive(pData, size, LIBSMART_STM32SPI_DEFAULT_TIMEOUT);
         }
 
 
-        void select() { pinSS == nullptr ? (void) 0 : pinSS->setOn(); }
+        void select() const { pinSS == nullptr ? (void) 0 : pinSS->setOn(); }
 
-        void unselect() { pinSS == nullptr ? (void) 0 : pinSS->setOff(); }
+        void unselect() const { pinSS == nullptr ? (void) 0 : pinSS->setOff(); }
 
     protected:
         SPI_HandleTypeDef *spi;
