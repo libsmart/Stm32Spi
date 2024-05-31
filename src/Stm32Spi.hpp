@@ -235,15 +235,15 @@ namespace Stm32Spi {
          *
          * @param pData A pointer to the buffer where the received data will be stored.
          * @param size The size of the buffer in bytes.
-         * @param Timeout The timeout duration for the receive operation in milliseconds.
+         * @param timeout The timeout duration for the receive operation in milliseconds.
          *
          * @return The status of the receive operation.
          */
-        Stm32Common::HalStatus receive(uint8_t *pData, const uint16_t size, const uint32_t Timeout) const {
+        Stm32Common::HalStatus receive(uint8_t *pData, const uint16_t size, const uint32_t timeout) const {
             log(Stm32ItmLogger::LoggerInterface::Severity::INFORMATIONAL)
-                    ->println("Stm32Spi::Spi::receive()");
+                    ->printf("Stm32Spi::Spi::receive(%p, %lu, %lu)\r\n", &pData, size, timeout);
 
-            const auto ret = HAL_SPI_Receive(spi, pData, size, Timeout);
+            const auto ret = HAL_SPI_Receive(spi, pData, size, timeout);
             if (ret != static_cast<uint32_t>(Stm32Common::HalStatus::HAL_OK)) {
                 log(Stm32ItmLogger::LoggerInterface::Severity::ERROR)
                         ->printf("HAL_SPI_Receive() = 0x%02x\r\n", ret);
