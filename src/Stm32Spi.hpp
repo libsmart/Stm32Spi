@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 Roland Rusch, easy-smart solution GmbH <roland.rusch@easy-smart.ch>
+ * SPDX-FileCopyrightText: 2026 Roland Rusch, easy-smart solution GmbH <roland.rusch@easy-smart.ch>
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
@@ -45,7 +45,7 @@ namespace Stm32Spi {
     };
 
 
-    class Spi : public Process::ProcessInterface, public Stm32ItmLogger::Loggable {
+    class Spi : public Stm32Common::Process::ProcessInterface, public Stm32ItmLogger::Loggable {
     public:
         explicit Spi(SPI_HandleTypeDef *spi)
             : spi(spi) { ; }
@@ -105,7 +105,7 @@ namespace Stm32Spi {
          *
          * @return The status of the transmission.
          */
-        HalStatus transmit(const uint8_t *pData, const uint16_t size, const uint32_t timeout);
+        Stm32Common::HalStatus transmit(const uint8_t *pData, const uint16_t size, const uint32_t timeout);
 
 
         /**
@@ -118,7 +118,7 @@ namespace Stm32Spi {
          *
          * @return The status of the transmission.
          */
-        HalStatus transmit(const uint8_t *pData, const uint16_t size);
+        Stm32Common::HalStatus transmit(const uint8_t *pData, const uint16_t size);
 
 
         /**
@@ -130,7 +130,7 @@ namespace Stm32Spi {
          *
          * @return The status of the transmission.
          */
-        HalStatus transmit(const uint8_t data);
+        Stm32Common::HalStatus transmit(const uint8_t data);
 
 
         /**
@@ -157,7 +157,7 @@ namespace Stm32Spi {
          * @param data The 32-bit data to be transmitted.
          * @return The status of the transmission operation.
          */
-        HalStatus transmit_be(const uint32_t data);
+        Stm32Common::HalStatus transmit_be(const uint32_t data);
 
 
         /**
@@ -170,7 +170,7 @@ namespace Stm32Spi {
          * @param data The 16-bit data to be transmitted.
          * @return The status of the transmission operation.
          */
-        HalStatus transmit_be(const uint16_t data);
+        Stm32Common::HalStatus transmit_be(const uint16_t data);
 
         /**
          * @brief Transmit data using the SPI peripheral.
@@ -181,7 +181,7 @@ namespace Stm32Spi {
          * @param size The size of the data in bytes.
          * @return The status of the transmission.
          */
-        HalStatus transmit(const char *data, const uint16_t size);
+        Stm32Common::HalStatus transmit(const char *data, const uint16_t size);
 
 
         /**
@@ -195,7 +195,7 @@ namespace Stm32Spi {
          * @param data C string containing the data to transmit.
          * @return The status of the transmission.
          */
-        HalStatus transmit(const char *data);
+        Stm32Common::HalStatus transmit(const char *data);
 
 
         /**
@@ -209,7 +209,7 @@ namespace Stm32Spi {
          *
          * @return The status of the receive operation.
          */
-        HalStatus receive(uint8_t *pData, const uint16_t size, const uint32_t timeout);
+        Stm32Common::HalStatus receive(uint8_t *pData, const uint16_t size, const uint32_t timeout);
 
 
         /**
@@ -221,7 +221,7 @@ namespace Stm32Spi {
          * @param size The number of bytes to receive.
          * @return The status of the receive operation.
          */
-        HalStatus receive(uint8_t *pData, const uint16_t size);
+        Stm32Common::HalStatus receive(uint8_t *pData, const uint16_t size);
 
 
         /**
@@ -235,7 +235,7 @@ namespace Stm32Spi {
          *         - HAL_OK: The SPI peripheral is ready.
          *         - HAL_TIMEOUT: The timeout period elapsed before the SPI peripheral became ready.
          */
-        HalStatus waitForReadyState(const uint32_t timeout) const;
+        Stm32Common::HalStatus waitForReadyState(const uint32_t timeout) const;
 
 
         /**
